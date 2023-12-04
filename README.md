@@ -4,11 +4,13 @@ This function gets triggered when a new blob is created in the source container 
 
 I've borrowed the code from @yamchi, his blog about this project: https://medium.com/@yamchi/python-blob-triggered-azure-function-to-copy-a-newly-created-blob-to-a-backup-container-5f5a82a24ad4
 
+**Note** that this code is limited to copying between containers within the same storage account.
+
 # Local Testing:
 * Ensure you have installed the Azure Functions CLI, described here: `https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-python`
 * Ensure you have a local azure emulator like Azurite. The easiest way to do this is with the VSCode extension - that's explained well here `https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio`
 * Assuming you have set it up, make sure you start it - if you don't, you'll get a lot of connection refused errors. You also need the queue emulator for this code to work.
-* This code *won't* work locally with `"dest_conn_string": "UseDevelopmentStorage=true",` - it needs the full "fake" string, defined here: `https://learn.microsoft.com/en-us/azure/storage/common/storage-use-emulator?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json#authenticating-requests-against-the-storage-emulator`
+* This code *won't* work locally with `"blob_conn_string": "UseDevelopmentStorage=true",` - it needs the full "fake" string, defined here: `https://learn.microsoft.com/en-us/azure/storage/common/storage-use-emulator?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json#authenticating-requests-against-the-storage-emulator`
 * To run locally, create local.settings.json in the root. You can use the template. `cp example.local.settings.json local.settings.json`
 * Then, install the requirements and start the function:
 ```

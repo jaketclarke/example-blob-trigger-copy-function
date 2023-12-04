@@ -6,7 +6,7 @@
       "type": "blobTrigger",
       "direction": "in",
       "path": "input-container/{name}",
-      "connection": "source_conn_string"
+      "connection": "blob_conn_string"
     }
   ]
 }

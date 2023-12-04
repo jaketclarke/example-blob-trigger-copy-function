@@ -10,8 +10,7 @@ def main(myblob: func.InputStream):
                  f"Name: {myblob.name}\n"
                  f"Blob Size: {myblob.length} bytes")
     # Get environment variables 
-    source_conn_string = os.environ["source_conn_string"]
-    dest_conn_string = os.environ["dest_conn_string"]
+    blob_conn_string = os.environ["blob_conn_string"]
 
     # Assign container names
     source_container_name = "input-container"
@@ -22,7 +21,7 @@ def main(myblob: func.InputStream):
 
     try:
         # Create a BlobClient representing the source blob.
-        source_blob = BlobClient.from_connection_string(source_conn_string, source_container_name, blob_name)
+        source_blob = BlobClient.from_connection_string(blob_conn_string, source_container_name, blob_name)
 
         # Lease the source blob for the copy operation
         # to prevent another client from modifying it.
@@ -38,7 +37,7 @@ def main(myblob: func.InputStream):
 
         # Create a BlobClient representing the
         # destination blob with a unique name.
-        dest_blob = BlobClient.from_connection_string(dest_conn_string, dest_container_name, blob_name + "-Copy")
+        dest_blob = BlobClient.from_connection_string(blob_conn_string, dest_container_name, blob_name + "-Copy")
         
         # Start the copy operation.
         dest_blob.start_copy_from_url(source_blob.url)
