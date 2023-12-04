@@ -5,8 +5,8 @@
       "name": "myblob",
       "type": "blobTrigger",
       "direction": "in",
-      "path": "samples-workitems/{name}",
-      "connection": "source_conn_string"
+      "path": "input-container/{name}",
+      "connection": "blob_conn_string"
     }
   ]
 }
