@@ -12,10 +12,10 @@ def main(myblob: func.InputStream):
     # Get environment variables 
     source_conn_string = os.environ["source_conn_string"]
     dest_conn_string = os.environ["dest_conn_string"]
-    sas_token = os.environ["sas_token"]
+
     # Assign container names
-    source_container_name = "samples-workitems"
-    dest_container_name = "outcontainer"
+    source_container_name = "input-container"
+    dest_container_name = "output-container"
 
     # Get the blob_name from the event
     blob_name = myblob.name.split("/")[-1]
@@ -28,17 +28,20 @@ def main(myblob: func.InputStream):
         # to prevent another client from modifying it.
         lease = BlobLeaseClient(source_blob)
         # lease.acquire()
-
+    
         # Get the source blob's properties and display the lease state.
         source_props = source_blob.get_blob_properties()
         print("Lease state: " + source_props.lease.state)
+
+        #! todo download first
+        # suspect line below will error in prod without SAS token
 
         # Create a BlobClient representing the
         # destination blob with a unique name.
         dest_blob = BlobClient.from_connection_string(dest_conn_string, dest_container_name, blob_name + "-Copy")
         
         # Start the copy operation.
-        dest_blob.start_copy_from_url(source_blob.url+sas_token)
+        dest_blob.start_copy_from_url(source_blob.url)
 
         # Get the destination blob's properties to check the copy status.
         properties = dest_blob.get_blob_properties()
