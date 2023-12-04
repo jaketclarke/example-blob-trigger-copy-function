@@ -2,19 +2,21 @@
 ### Copy a blob with Client libraries
 This function gets triggered when a new blob is created in the source container and makes a copy of the new blob in the destination container with the help of **Client Libraries**. 
 
-My blog about this project:
-
-https://medium.com/@yamchi/python-blob-triggered-azure-function-to-copy-a-newly-created-blob-to-a-backup-container-5f5a82a24ad4
+I've borrowed the code from @yamchi, his blog about this project: https://medium.com/@yamchi/python-blob-triggered-azure-function-to-copy-a-newly-created-blob-to-a-backup-container-5f5a82a24ad4
 
 # Local Testing:
-Initially install the requirements and then start the function:
+* Ensure you have installed the Azure Functions CLI, described here: `https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-python`
+* Ensure you have a local azure emulator like Azurite. The easiest way to do this is with the VSCode extension - that's explained well here `https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio`
+* Assuming you have set it up, make sure you start it - if you don't, you'll get a lot of connection refused errors. You also need the queue emulator for this code to work.
+* This code *won't* work locally with `"dest_conn_string": "UseDevelopmentStorage=true",` - it needs the full "fake" string, defined here: `https://learn.microsoft.com/en-us/azure/storage/common/storage-use-emulator?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json#authenticating-requests-against-the-storage-emulator`
+* To run locally, create local.settings.json in the root. You can use the template. `cp example.local.settings.json local.settings.json`
+* Then, install the requirements and start the function:
 ```
 $ pip install -r requirements.txt 
 $ func start
 ```
-You should have a `local.settings.json` file in the root dir of the project and specify the values for connection strings and AzurewebJobsStorage:
-![Untitled4](https://user-images.githubusercontent.com/84933778/188228950-2aee732a-b37b-4bdf-95c0-d3c4b0372a57.png)
 
+# Production
 
 To get the connection string for an Azure Storage Account go to the storage account and from the left pane select “Access Keys” and then click on “Show” and copy the value.
 ![Untitled1](https://user-images.githubusercontent.com/84933778/187779260-a68254d2-00e7-4cac-9b54-14b75e5068dc.png)
